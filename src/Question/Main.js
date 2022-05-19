@@ -55,7 +55,7 @@ function Main() {
     //to pass on to filter component
     const [filterKeys, setFilterKeys] = useState([]);
 
-    const filterQuestionsByTags = async () => {
+    const filterQuestionsByTags = () => {
         if (filterKeys.length !== 0) {
             let res = allQuestions.filter((ques) => {
                 if (ques.tags.trim() === '') {
@@ -73,6 +73,7 @@ function Main() {
             setFilteredQuestions([...res])
             console.log('questions filtered !');
             setFilterKeys([]);
+            setCurrentPage(1);
             setCurrentPageQuestions(
                 res.slice(0, questionsPerPage));
         }
@@ -81,10 +82,10 @@ function Main() {
 
 
     //filter questions by All
-    const showAllQuestions = async () => {
+    const showAllQuestions = () => {
         let res = [...allQuestions]
         setFilteredQuestions(res);
-
+        setCurrentPage(1);
         setCurrentPageQuestions(
             res.slice(0, questionsPerPage));
 
@@ -159,15 +160,9 @@ function Main() {
                         setIsLoading(false);
 
                     }, (error) => {
-                        if (error.response.status !== 500) {
-                            toast((t) => (
-                                <span><FiInfo />{error.response.message}</span>
-                            ))
-                        } else {
-                            toast((t) => (
-                                <span><FiInfo />&nbsp;Server error! We are sorry for our bad service.Please try after some time.</span>
-                            ))
-                        }
+                        toast((t) => (
+                            <span><FiInfo />&nbsp;Server error! We are sorry for our bad service.Please try after some time.</span>
+                        ))
                         setIsLoading(false);
                     }
                 ).catch((ex) => {
@@ -293,7 +288,7 @@ function Main() {
 
             </div>
 
-            <Pagination questionsPerPage={questionsPerPage} totalQuestions={filteredQuestions.length} paginate={paginate} currentPage={currentPage} />
+            <Pagination questionsPerPage={questionsPerPage} totalQuestions={!isLoading ? filteredQuestions.length : 20} paginate={paginate} currentPage={currentPage} isLoading={isLoading} />
         </div>
     )
 }
