@@ -30,7 +30,7 @@ function Main() {
     const filterRef = useRef(null);
     const handleFilter = () => { setIsFilterShow(!isFilterShow); }
     const handleFilterRef = () => setIsFilterShow(false);
-    const [tags] = useState(["java", "css", "python", "cspring", "cboot", "c++", "csat", "c#", "csharp", "c/c++"])
+    const [tags, setTags] = useState([])
     const [allQuestions, setAllQuestions] = useState([])
     const [isLoading, setIsLoading] = useState(false);
     const [filteredQuestions, setFilteredQuestions] = useState([]);
@@ -157,6 +157,19 @@ function Main() {
                         setFilteredQuestions(res.data);
                         setCurrentPageQuestions(res.data.slice((currentPage * questionsPerPage - questionsPerPage), currentPage * questionsPerPage))
                         // tags load
+
+
+                        questionService.getAllTags().then(
+                            (res) => {
+                                setTags(res.data.tag.split(" "));
+                                console.log('tags fecthed');
+                            },
+                            (error) => {
+                                console.log('error in loading tags');
+                            }
+                        )
+
+
                         setIsLoading(false);
 
                     }, (error) => {
@@ -166,14 +179,13 @@ function Main() {
                         setIsLoading(false);
                     }
                 ).catch((ex) => {
-                    toast((t) => {
-                        <span><FiInfo />&nbsp;We are sorry for the trouble in loading questions. please try again</span>
-                    })
+                    console.log('exception occured while laoding questions and tags');
                     setIsLoading(false);
                 }).finally(() => {
                     setIsLoading(false);
                 })
             })();
+
         }
     }, [allQuestions, currentPage, questionsPerPage, currentPageQuestions, filteredQuestions])
 
@@ -248,9 +260,9 @@ function Main() {
                                     {
                                         (question.tags.trim() !== '') &&
 
-                                        question.tags.split(' ').map((tag) => (
+                                        question.tags.split(' ').map((tag, index) => (
 
-                                            <Tag text={tag} key={tag} />
+                                            <Tag text={tag} key={index} />
                                         ))
                                     }
 
@@ -288,7 +300,8 @@ function Main() {
 
             </div>
 
-            <Pagination questionsPerPage={questionsPerPage} totalQuestions={filteredQuestions.length === 0 ? 20 : filteredQuestions.length} paginate={paginate} currentPage={currentPage} />
+            <Pagination questionsPerPage={questionsPerPage} totalQuestions={filteredQuestions.length === 0 ? 20 : filteredQuestions.length}
+                paginate={paginate} currentPage={currentPage} />
         </div>
     )
 }

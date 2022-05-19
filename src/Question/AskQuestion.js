@@ -14,6 +14,16 @@ class AskQuestion extends Component {
 
     componentDidMount() {
         console.log('mount');
+        (async () => {
+            await questionService.getAllTags().then(
+                (res) => {
+                    this.setState({ allTags: res.data.tag.split(" ") })
+                },
+                (error) => {
+                    this.setState({ allTags: [] })
+                }
+            )
+        })();
     }
     componentDidUpdate() {
         console.log('updated');
@@ -25,7 +35,7 @@ class AskQuestion extends Component {
         tags: [],
         filteredTags: [],
         isShowFilteredTags: false,
-        allTags: ["java", "css", "python", "cspring", "cboot", "c++", "csat", "c#", "csharp", "c/c++"],
+        allTags: [],
         isLoading: false,
         newTags: []
     };
@@ -118,6 +128,29 @@ class AskQuestion extends Component {
                         toast.success("question posted successfully");
                         this.setState({ isLoading: false })
                         this.setState({ title: '', body: RichTextEditor.createEmptyValue(), keyValue: '', tags: [] })
+
+                        // filtering new tags to add
+                        const tagsToBeAdded = []
+                        this.questionDTO.tags.split(' ').forEach((tag) => {
+                            if (this.state.allTags.find(f => f === tag) === undefined) {
+                                tagsToBeAdded.push(tag)
+                            }
+                        })
+                        //post tags to db
+                        if (tagsToBeAdded.length !== 0) {
+
+                            questionService.postNewTag({ tag: tagsToBeAdded.join(" ") }).then(
+                                (res) => {
+                                    console.log('tag added successfully');
+                                }, (err) => {
+                                    console.log('error in adding tag');
+                                }
+                            )
+                        }
+
+
+                        this.setState({ isLoading: false });
+
                     }, (error) => {
                         console.log('ERROR' + error);
                     }
@@ -179,9 +212,9 @@ class AskQuestion extends Component {
 
                     <div className='askQuestionSelectedTags_div'>
                         {
-                            this.state.tags.map((tag) => {
+                            this.state.tags.map((tag, index) => {
                                 return (
-                                    <span onClick={() => this.removeTag(tag)} key={tag}><Button text={tag} type="light" size="extra_small" /></span>
+                                    <span onClick={() => this.removeTag(tag)} key={index}><Button text={tag} type="light" size="extra_small" /></span>
                                 )
                             })
                         }
@@ -203,9 +236,9 @@ class AskQuestion extends Component {
                         this.state.isShowFilteredTags &&
                         <ul className='filteredTagsList_div'>
                             {
-                                this.state.filteredTags.map((tag) => {
+                                this.state.filteredTags.map((tag, index) => {
                                     return (
-                                        <li onClick={() => this.addToFilteredList(tag)} className='eachFilteredTag' key={tag}>{tag}</li>
+                                        <li onClick={() => this.addToFilteredList(tag)} className='eachFilteredTag' key={index}>{tag}</li>
                                     )
                                 })
                             }

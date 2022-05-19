@@ -59,9 +59,9 @@ function Filter({ tags, filterKeys, setFilterKeys, filterQuestionsByTags
 
                 <span><b>search tags:</b>&nbsp;&nbsp;</span><span style={{ fontSize: '.75rem' }}>(click on tag to remove)</span>
                 <div className='filterKeysShow_div'>
-                    {filterKeys.map((key) => {
+                    {filterKeys.map((key, index) => {
                         return (
-                            <span onClick={() => removeFilter(key)} key={key}>
+                            <span onClick={() => removeFilter(key)} key={index}>
                                 <Button text={key} size="extra_small" type="light" />
                             </span>
                         )
@@ -77,9 +77,9 @@ function Filter({ tags, filterKeys, setFilterKeys, filterQuestionsByTags
                     isShowSearchedTags &&
                     <ul className='filteredTagsList_div'>
                         {
-                            filteredTags.map((tag) => {
+                            filteredTags.map((tag, index) => {
                                 return (
-                                    <li onClick={() => addToFilteredList(tag)} className='eachFilteredTag' key={tag}>{tag}</li>
+                                    <li onClick={() => addToFilteredList(tag)} className='eachFilteredTag' key={index}>{tag}</li>
                                 )
                             })
                         }
