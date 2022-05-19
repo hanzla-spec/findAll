@@ -239,9 +239,9 @@ function Main() {
                                     </ul>
                                 </div>
                                 <div className='eachQuestion_details'>
-                                    <p className='eachQuestion_title'>{question.title}</p>
+                                    <p className='eachQuestion_title'>{question.title.trim()}</p>
                                     <p className='eachQuestion_body'>
-                                        {html2text(question.body).slice(0, 150)}...
+                                        {html2text(question.body).trim().slice(0, 150)}...
                                     </p>
                                 </div>
                                 <div className='eachQuestionTags_div'>
@@ -288,7 +288,7 @@ function Main() {
 
             </div>
 
-            <Pagination questionsPerPage={questionsPerPage} totalQuestions={!isLoading ? filteredQuestions.length : 20} paginate={paginate} currentPage={currentPage} isLoading={isLoading} />
+            <Pagination questionsPerPage={questionsPerPage} totalQuestions={filteredQuestions.length === 0 ? 20 : filteredQuestions.length} paginate={paginate} currentPage={currentPage} />
         </div>
     )
 }

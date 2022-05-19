@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './Pagination.css'
 import { BsChevronRight, BsChevronLeft } from 'react-icons/bs'
 
-function Pagination({ questionsPerPage, totalQuestions, paginate, currentPage, isLoading }) {
+function Pagination({ questionsPerPage, totalQuestions, paginate, currentPage }) {
 
     const [pageNumbers] = useState([])
     const [showedPageNumbers, setShowedPageNumbers] = useState([])
@@ -40,7 +40,7 @@ function Pagination({ questionsPerPage, totalQuestions, paginate, currentPage, i
             }
             setShowedPageNumbers(pageNumbers.slice(0, 5));
         }
-    }, [showedPageNumbers, totalQuestions, questionsPerPage, pageNumbers, isLoading])
+    }, [showedPageNumbers, totalQuestions, questionsPerPage, pageNumbers])
 
     return (
         <div style={{ marginTop: '30px', paddingBottom: '30px' }}>

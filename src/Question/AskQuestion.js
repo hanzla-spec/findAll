@@ -26,7 +26,8 @@ class AskQuestion extends Component {
         filteredTags: [],
         isShowFilteredTags: false,
         allTags: ["java", "css", "python", "cspring", "cboot", "c++", "csat", "c#", "csharp", "c/c++"],
-        isLoading: false
+        isLoading: false,
+        newTags: []
     };
 
     questionDTO = {
@@ -57,10 +58,34 @@ class AskQuestion extends Component {
         }
     }
 
-    addToFilteredList = tag => {
-        this.setState({ tags: [...this.state.tags, tag] })
-        this.setState({ isShowFilteredTags: false })
+    addToFilteredList = (tag) => {
+        if (this.state.tags.find(f => f === tag) === undefined) {
+
+            this.setState({ tags: [...this.state.tags, tag] })
+            this.setState({ isShowFilteredTags: false })
+        } else {
+            toast((t) => (
+                <span><FcInfo />&nbsp;tag already added</span>
+            ))
+        }
+
         console.log(this.state.tags);
+        this.setState({ keyValue: '' });
+    }
+
+    addNewTag = () => {
+        if (this.state.keyValue === '') {
+            toast((t) => (
+                <span><FcInfo />&nbsp;Please enter tag</span>
+            ))
+        } else if (this.state.tags.find(f => f === this.state.keyValue) === undefined) {
+            this.setState({ tags: [...this.state.tags, this.state.keyValue], keyValue: '' })
+        } else {
+            toast((t) => (
+                <span><FcInfo />&nbsp;tag already added</span>
+            ))
+        }
+
     }
 
     removeTag = tag => {
@@ -92,7 +117,7 @@ class AskQuestion extends Component {
                     (res) => {
                         toast.success("question posted successfully");
                         this.setState({ isLoading: false })
-                        this.setState({ title: '', body: RichTextEditor.createEmptyValue(), keyValue: '' })
+                        this.setState({ title: '', body: RichTextEditor.createEmptyValue(), keyValue: '', tags: [] })
                     }, (error) => {
                         console.log('ERROR' + error);
                     }
@@ -103,6 +128,21 @@ class AskQuestion extends Component {
                     this.setState({ isLoading: false })
                 })
                 )();
+
+
+                //adding new tag to db
+                // const tagsToBeAdded = []
+                // this.questionDTO.tags.split(' ').forEach((tag)=>{
+                //     if(this.state.allTags.find(f => f===tag) === undefined){
+                //         tagsToBeAdded.push(tag)
+                //     }
+                // })
+                // post tags to db
+                // (async()=>{
+                //      await questionService.
+                // })();
+
+
             } catch (e) {
                 this.setState({ isLoading: false })
             }
@@ -148,7 +188,13 @@ class AskQuestion extends Component {
 
                     </div>
 
-                    <input type='text' placeholder='search tags' name='keyValue' value={this.state.keyValue} onChange={(evt) => this.handleTags(evt)} />
+                    <div className='tagsInput_div'>
+
+                        <input type='text' placeholder='search tags' name='keyValue' value={this.state.keyValue}
+                            onChange={(evt) => this.handleTags(evt)} />
+                        <span style={{ margin: '0px 5px' }} onClick={() => this.addNewTag()} ><Button text="Add tag" type="light" size="small" /></span>
+                    </div>
+
 
 
 
@@ -166,6 +212,8 @@ class AskQuestion extends Component {
 
                         </ul>
                     }
+
+
 
                 </div>
 
