@@ -41,7 +41,7 @@ function Main() {
     const [questionsPerPage] = useState(2);
     const [currentPageQuestions, setCurrentPageQuestions] = useState([]);
 
-    const paginate = (currPage) => {
+    const paginate = async (currPage) => {
         const indexOfLastQuestion = currPage * questionsPerPage;
         const indexOfFirstQuestion = indexOfLastQuestion - questionsPerPage;
         setCurrentPage(currPage);
@@ -49,17 +49,15 @@ function Main() {
         setCurrentPageQuestions(
             filteredQuestions.slice(indexOfFirstQuestion, indexOfLastQuestion));
 
-
     }
 
 
     //to pass on to filter component
     const [filterKeys, setFilterKeys] = useState([]);
 
-    const filterQuestionsByTags = () => {
-
+    const filterQuestionsByTags = async () => {
         if (filterKeys.length !== 0) {
-            setFilteredQuestions(allQuestions.filter((ques) => {
+            let res = allQuestions.filter((ques) => {
                 if (ques.tags.trim() === '') {
                     return false;
                 } else {
@@ -71,28 +69,24 @@ function Main() {
                     });
                     return res;
                 }
-            }))
-
-            const indexOfLastQuestion = currentPage * questionsPerPage;
-            const indexOfFirstQuestion = indexOfLastQuestion - questionsPerPage;
+            })
+            setFilteredQuestions([...res])
+            console.log('questions filtered !');
+            setFilterKeys([]);
             setCurrentPageQuestions(
-                filteredQuestions.slice(indexOfFirstQuestion, indexOfLastQuestion));
+                res.slice(0, questionsPerPage));
         }
-
-        console.log('questions filtered !');
-        setFilterKeys([]);
+        setIsFilterShow(false)
     }
 
 
     //filter questions by All
-    const showAllQuestions = () => {
-        setFilteredQuestions(allQuestions);
-        setIsFilterShow(false)
-        const indexOfLastQuestion = currentPage * questionsPerPage;
-        const indexOfFirstQuestion = indexOfLastQuestion - questionsPerPage;
-        setCurrentPageQuestions(
-            filteredQuestions.slice(indexOfFirstQuestion, indexOfLastQuestion));
+    const showAllQuestions = async () => {
+        let res = [...allQuestions]
+        setFilteredQuestions(res);
 
+        setCurrentPageQuestions(
+            res.slice(0, questionsPerPage));
 
     }
     //filter questions by newest questions
@@ -107,16 +101,11 @@ function Main() {
             } else if (a.isEdited === 'false' && b.isEdited === 'true') {
                 return b.editedAt - a.postedAt;
             } else {
-                return b.postedAt - a.postedAt;
+                return b.askedAt - a.askedAt;
             }
         }));
         setIsFilterShow(false)
-
-        const indexOfLastQuestion = currentPage * questionsPerPage;
-        const indexOfFirstQuestion = indexOfLastQuestion - questionsPerPage;
-        setCurrentPageQuestions(
-            filteredQuestions.slice(indexOfFirstQuestion, indexOfLastQuestion));
-
+        paginate(1);
     }
 
     // filtered question by answered
@@ -125,25 +114,14 @@ function Main() {
 
         setFilteredQuestions(filteredQuestions.sort((a, b) => b.noOfAnswers - a.noOfAnswers));
         setIsFilterShow(false)
-
-        const indexOfLastQuestion = currentPage * questionsPerPage;
-        const indexOfFirstQuestion = indexOfLastQuestion - questionsPerPage;
-        setCurrentPageQuestions(
-            filteredQuestions.slice(indexOfFirstQuestion, indexOfLastQuestion));
-
-
+        paginate(1);
     }
 
     // question by unaswered
     const filterQuestionByUnanswered = () => {
-        setFilteredQuestions(filteredQuestions.filter(f => f.noOfAnswers === 0));
-        setIsFilterShow(false)
-        const indexOfLastQuestion = currentPage * questionsPerPage;
-        const indexOfFirstQuestion = indexOfLastQuestion - questionsPerPage;
-        setCurrentPageQuestions(
-            filteredQuestions.slice(indexOfFirstQuestion, indexOfLastQuestion));
-
-
+        setFilteredQuestions(filteredQuestions.sort((a, b) => a.noOfAnswers - b.noOfAnswers));
+        setIsFilterShow(false);
+        paginate(1);
     }
 
     //filter question by top rated
@@ -151,12 +129,7 @@ function Main() {
     const filterQuestionsByTopVoted = () => {
         setFilteredQuestions(filteredQuestions.sort((a, b) => b.noOfVotes - a.noOfVotes));
         setIsFilterShow(false)
-        const indexOfLastQuestion = currentPage * questionsPerPage;
-        const indexOfFirstQuestion = indexOfLastQuestion - questionsPerPage;
-        setCurrentPageQuestions(
-            filteredQuestions.slice(indexOfFirstQuestion, indexOfLastQuestion));
-
-
+        paginate(1);
         console.log('top');
     }
 
@@ -165,13 +138,8 @@ function Main() {
     const filterQuestionsByTopViewed = () => {
 
         setFilteredQuestions(filteredQuestions.sort((a, b) => b.noOfViews - a.noOfViews));
-        setIsFilterShow(false)
-        const indexOfLastQuestion = currentPage * questionsPerPage;
-        const indexOfFirstQuestion = indexOfLastQuestion - questionsPerPage;
-        setCurrentPageQuestions(
-            filteredQuestions.slice(indexOfFirstQuestion, indexOfLastQuestion));
-
-
+        setIsFilterShow(false);
+        paginate(1);
     }
 
 
@@ -179,8 +147,9 @@ function Main() {
         console.log('question-main-effect');
 
         if (allQuestions.length === 0) {
-            setIsLoading(true);
             (async () => {
+
+                setIsLoading(true);
                 await questionService.getAllVQuestions().then(
                     (res) => {
                         setAllQuestions(res.data);
@@ -211,8 +180,7 @@ function Main() {
                 })
             })();
         }
-
-    }, [allQuestions, currentPage, questionsPerPage, currentPageQuestions])
+    }, [allQuestions, currentPage, questionsPerPage, currentPageQuestions, filteredQuestions])
 
     return (
         <div className='questionMain_container'>
@@ -246,7 +214,7 @@ function Main() {
                         {
                             isFilterShow &&
                             <Filter tags={tags} filterKeys={filterKeys} setFilterKeys={setFilterKeys}
-                                setIsFilterShow={setIsFilterShow} filterQuestionsByTags={filterQuestionsByTags}
+                                filterQuestionsByTags={filterQuestionsByTags}
                                 filterQuestionsByNewest={filterQuestionsByNewest} filterQuestionsByTopVoted={filterQuestionsByTopVoted}
                                 filterQuestionsByAnswered={filterQuestionsByAnswered} filterQuestionByUnanswered={filterQuestionByUnanswered}
                                 filterQuestionsByTopViewed={filterQuestionsByTopViewed} />
@@ -304,16 +272,12 @@ function Main() {
 
                                         {
                                             question.isEdited === 'true' ?
-                                                <span>edited&nbsp;{new Date(question.editedAt).toLocaleString("en-US", { month: "short" })}
-                                                    &nbsp;{new Date(question.editedAt).toLocaleString("en-US", { day: "numeric" })}
-                                                    ,&nbsp;{new Date(question.editedAt).toLocaleString("en-US", { year: "numeric" })}
+                                                <span>edited&nbsp;{new Date(question.editedAt).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })}
                                                 </span>
 
 
                                                 :
-                                                <span>posted&nbsp;{new Date(question.askedAt).toLocaleString("en-US", { month: "short" })}
-                                                    &nbsp;{new Date(question.askedAt).toLocaleString("en-US", { day: "numeric" })}
-                                                    ,&nbsp;{new Date(question.askedAt).toLocaleString("en-US", { year: "numeric" })}
+                                                <span>posted&nbsp;{new Date(question.askedAt).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })}
                                                 </span>
                                         }
                                     </div>

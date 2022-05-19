@@ -92,7 +92,7 @@ class AskQuestion extends Component {
                     (res) => {
                         toast.success("question posted successfully");
                         this.setState({ isLoading: false })
-                        this.setState({ title: '', body: RichTextEditor.createEmptyValue() })
+                        this.setState({ title: '', body: RichTextEditor.createEmptyValue(), keyValue: '' })
                     }, (error) => {
                         console.log('ERROR' + error);
                     }
