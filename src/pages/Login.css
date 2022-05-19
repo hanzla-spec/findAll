@@ -1,0 +1,98 @@
+.login_container {
+    margin: 0px auto;
+    margin-top: 100px;
+    border-radius: var(--radius);
+    box-shadow: var(--light-shadow);
+    background-color: white;
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+}
+
+.login_color_bar {
+    background-color: var(--blue-minded);
+    height: 5px;
+    width: 100%;
+}
+
+.login_content {
+    margin-left: 10px;
+}
+
+.login {
+    width: 90%;
+}
+
+.need_help {
+    font-size: .75rem;
+    font-family: var(--open-sans);
+    float: right;
+}
+
+.login_options {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.new_member {
+    margin-top: 30px;
+    font-family: var(--open-sans);
+    font-size: .85rem;
+}
+
+.goto_register {
+    font-family: var(--open-sans);
+    color: var(--blue-minded);
+    text-decoration: underline;
+}
+
+.login_heading {
+    margin-top: 20px;
+    font-family: var(--open-sans);
+    font-weight: 600;
+    color: var(--blue-minded);
+    margin-bottom: 20px;
+}
+
+.login_btn {
+    margin: 0px !important;
+}
+
+input {
+    display: block;
+    margin: 10px 0px;
+    outline: 1px solid white;
+    font-size: .95rem;
+    line-height: 2rem;
+    width: 100%;
+    border: 1px solid var(--blue-minded);
+    border-radius: var(--radius);
+    padding-left: 5px;
+    font-family: var(--open-sans);
+
+}
+
+input:focus {
+    outline: 1px solid var(--blue-minded);
+}
+
+.need_help:hover {
+    text-decoration: underline;
+}
+
+.goto_register:hover {
+    color: blue;
+}
+
+
+@media only screen and (max-width: 1024px) {
+    .login_container {
+        width: 40%;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .login_container {
+        width: 90%;
+    }
+}

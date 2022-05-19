@@ -1,0 +1,11 @@
+.tag {
+    padding: 3px;
+    color: var(--light-blue);
+    border: 1px solid var(--light-grey);
+    border-radius: var(--radius);
+    margin: 0px 3px;
+}
+
+.tag:hover {
+    outline: 1px solid var(--light-grey);
+}

@@ -1,0 +1,155 @@
+.questionMain_container {
+    min-height: 70vh;
+    width: 100%;
+    margin: 0px auto;
+}
+
+.questionNavbar_div {
+    margin-top: 50px;
+}
+
+.allQuestion_heading {
+    color: var(--clr-primary-1);
+    padding: 10px;
+}
+
+.filterButtons_div {
+    display: flex;
+    flex: 1;
+    color: var(--clr-primary-1);
+    padding: 10px;
+}
+
+.askQuestionButton_div {
+    margin: 10px;
+    display: flex;
+    align-items: baseline;
+}
+
+.askQuestionButtons {
+    margin-left: 10px;
+}
+
+.questionFirstNavbar_div,
+.questionSecondNavbar_div {
+    padding: 5px 0px;
+    border-bottom: 1px solid var(--clr-grey-8);
+}
+
+.questionFirstNavbar_div,
+.questionSecondNavbar_div {
+    display: flex;
+    justify-content: space-between;
+}
+
+.filterByTags_div {
+    padding: 8px;
+}
+
+.filterByTags_button {
+    font-size: 1rem;
+    padding: 5px;
+    border-radius: var(--radius);
+    border: 1px solid var(--blue-minded);
+}
+
+.filterByTags_button:hover {
+    outline: 1px solid var(--blue-minded);
+    cursor: pointer;
+}
+
+/*QUESTIONS css*/
+
+.questionsUnorderList,
+.eachQuestion_stats {
+    margin: 0px;
+    padding: 5px 10px;
+    list-style-type: none;
+}
+
+.eachQuestion_stats {
+    display: flex;
+    flex-direction: row;
+}
+
+.eachQuestion_stats li {
+    font-size: .85rem;
+    font-family: var(--open-sans);
+    margin: 0px 5px;
+}
+
+.eachQuestion_title {
+    font-size: .85rem;
+    color: var(--light-blue);
+    font-family: var(--montserrat);
+}
+
+.eachQuestion_title:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+
+.eachQuestion_body {
+    font-size: .75rem;
+}
+
+.eachQuestionTags_div {
+    margin-top: 10px;
+}
+
+.eachQuestionProfile_userInfo,
+.avatarDisplayName_div {
+    display: flex;
+    align-items: center;
+}
+
+.eachQuestionProfile_div {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.avatarForQuestion {
+    height: 20px;
+    width: 20px;
+}
+
+.usersDisplayName {
+    font-family: var(--montserrat);
+    color: var(--blue-minded);
+}
+
+.eachQuestionAskedAt {
+    font-size: .75rem;
+}
+
+.eachQuestion_list {
+    border-bottom: 1px solid var(--clr-grey-9);
+    height: 180px;
+}
+
+.eachQuestion_div {
+    padding: 20px 0px;
+}
+
+/*media query*/
+
+@media only screen and (min-width:768px) {
+
+    .eachQuestion_title {
+        font-size: 1.12rem;
+    }
+
+    .eachQuestion_body {
+        font-size: .95rem;
+    }
+
+    .questionMain_container {
+        width: 80%;
+    }
+
+    .eachQuestionAskedAt {
+        font-size: .85rem;
+    }
+}

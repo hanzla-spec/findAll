@@ -1,0 +1,121 @@
+.home_container {
+    margin-top: 50px;
+    min-height: 70vh;
+}
+
+.joinus_container {
+    height: 40vh;
+    margin: 5px;
+    padding: 5px;
+    background-color: black;
+    border-radius: var(--radius);
+}
+
+.joinus {
+    height: inherit;
+    border-radius: var(--radius);
+    background-color: var(--blue-minded);
+    display: block;
+    text-align: center;
+}
+
+.searchbar_img {
+    object-fit: contain;
+}
+
+.home_title {
+    color: white;
+    font-size: 1rem;
+    font-family: var(--roboto);
+}
+
+.joinButton_div {
+    margin-top: 30px;
+    padding-bottom: 30px;
+}
+
+
+.question_container {
+    height: 40vh;
+    margin: 5px;
+    padding: 5px;
+    background-color: var(--light-grey-2);
+    border-radius: var(--radius);
+}
+
+.questions_div {
+    height: inherit;
+    text-align: center;
+}
+
+.question_title {
+    font-family: var(--roboto);
+    padding: 0px 10px;
+}
+
+.question_title_div {
+    margin-top: 30px;
+    padding: 5px;
+}
+
+.question_title h2 {
+    font-family: var(--roboto-slab);
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.question_title p {
+    margin-top: 30px;
+    font-size: 1rem;
+}
+
+.animation_container {
+    margin: -5px 5px;
+    background-color: var(--clr-grey-1);
+    text-align: center;
+    padding-bottom: 50px;
+}
+
+.animation_div {
+    color: white;
+    font-size: 1.2rem;
+}
+
+.move_div {
+    padding-top: 30px;
+}
+
+.animation_staticText {
+    padding-top: 10px;
+}
+
+.image_check {
+    margin-top: 30px;
+}
+
+.stats_container {
+    text-align: center;
+}
+
+.stats_div {
+    color: white;
+    font-family: var(--roboto);
+    font-size: 1.1rem;
+    margin-top: 30px;
+}
+
+.activeStatus_div {
+    margin-top: 30px;
+}
+
+@media only screen and (min-width:768px) {
+    .joinus_container {
+        height: 50vh;
+        padding: 10px;
+    }
+
+    .question_container {
+        height: 50vh;
+    }
+
+}

@@ -1,0 +1,60 @@
+.askQuestionMain_div {
+    width: 80%;
+    min-height: 70vh;
+    padding: 10px;
+    margin: 0px auto;
+    margin-top: 50px !important;
+}
+
+.postQuestionBtn_div {
+    margin-top: 50px;
+    padding: 5px;
+    text-align: right;
+    padding-bottom: 100px;
+}
+
+.askQuestionTags_div {
+    margin-top: 50px;
+}
+
+.filteredTagsList_div {
+    margin: 0px;
+    padding: 0px;
+    background-color: var(--clr-grey-7);
+    position: absolute;
+    width: 40%;
+    max-height: 25vh;
+    overflow-y: scroll;
+}
+
+.eachFilteredTag {
+    width: 100%;
+    font-size: 1rem;
+    font-family: var(--open-sans);
+    margin-top: 2px;
+    padding: 5px;
+    border-bottom: 1px solid var(--clr-grey-9);
+    color: black;
+
+}
+
+.eachFilteredTag:hover {
+    cursor: pointer;
+    background-color: var(--clr-grey-9);
+}
+
+
+.askQuestionSelectedTags_div {
+    margin-top: 10px;
+    min-height: 40px;
+}
+
+@media only screen and (max-width:786px) {
+    .askQuestionMain_div {
+        width: 100%;
+    }
+
+    .filteredTagsList_div {
+        width: 94%;
+    }
+}
