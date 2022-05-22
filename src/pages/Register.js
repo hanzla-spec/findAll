@@ -7,7 +7,7 @@ import toast from 'react-hot-toast'
 import loginService from '../services/loginService'
 import Loader from '../assets/Loader.gif'
 import validator from 'validator';
-import { FiInfo } from 'react-icons/fi'
+import { FcInfo } from 'react-icons/fc'
 
 
 function Register() {
@@ -34,7 +34,7 @@ function Register() {
 
         if (loginDetails.password.trim() === '') {
             toast((t) => (
-                <span style={{ fontSize: '1rem' }}><FiInfo />&nbsp;&nbsp;Please enter password
+                <span style={{ fontSize: '1rem' }}><FcInfo />&nbsp;&nbsp;Please enter password
                 </span>
             ))
             return;
@@ -46,9 +46,9 @@ function Register() {
             setLoading(true);
             let JWT = DTOs.JWTs;
             await loginService.registerUser(loginDetails).then(
-                async (res) => {
+                (res) => {
                     toast.success("Registration successful");
-                    await loginService.loginUser(loginDetails).then(
+                    loginService.loginUser(loginDetails).then(
                         (res) => {
                             localStorage.removeItem("JWT");
                             JWT = res.data;
@@ -58,25 +58,25 @@ function Register() {
                         }, (error) => {
                             if (error.response.status === 500) {
                                 toast((t) => (
-                                    <span style={{ fontSize: '1rem' }}><FiInfo />&nbsp;&nbsp;There is some issue from our server.please try after some time
+                                    <span style={{ fontSize: '1rem' }}><FcInfo />&nbsp;&nbsp;There is some issue from our server.please try after some time
                                     </span>
                                 ))
                             } else {
                                 toast((t) => (
-                                    <span style={{ fontSize: '1rem' }}><FiInfo />&nbsp;&nbsp;{error.response.data.message}
+                                    <span style={{ fontSize: '1rem' }}><FcInfo />&nbsp;&nbsp;{error.response.data.message}
                                     </span>
                                 ))
                             }
-                            return;
+
                         }
                     ).catch((ex) => {
                         toast((t) => (
-                            <span style={{ fontSize: '1rem' }}><FiInfo />&nbsp;&nbsp;There is some issue from our server.please try after some time
+                            <span style={{ fontSize: '1rem' }}><FcInfo />&nbsp;&nbsp;There is some issue from our server.please try after some time
                             </span>
                         ))
                     }).finally(() => {
                         setLoading(false);
-                        return;
+
                     });
                 }, (error) => {
                     if (error.response.status === 500) {

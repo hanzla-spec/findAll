@@ -5,7 +5,6 @@ import Button from '../components/Button';
 import Loader from '../assets/Loader.gif'
 import toast from 'react-hot-toast';
 import { FcInfo } from 'react-icons/fc'
-import { FiInfo } from 'react-icons/fi';
 import questionService from '../services/questionService';
 import loginService from '../services/loginService';
 
@@ -69,6 +68,7 @@ class AskQuestion extends Component {
     }
 
     addToFilteredList = (tag) => {
+        tag = tag.trim();
         if (this.state.tags.find(f => f === tag) === undefined) {
 
             this.setState({ tags: [...this.state.tags, tag] })
@@ -84,12 +84,12 @@ class AskQuestion extends Component {
     }
 
     addNewTag = () => {
-        if (this.state.keyValue === '') {
+        if (this.state.keyValue.trim() === '') {
             toast((t) => (
                 <span><FcInfo />&nbsp;Please enter tag</span>
             ))
-        } else if (this.state.tags.find(f => f === this.state.keyValue) === undefined) {
-            this.setState({ tags: [...this.state.tags, this.state.keyValue], keyValue: '' })
+        } else if (this.state.tags.find(f => f === this.state.keyValue.trim()) === undefined) {
+            this.setState({ tags: [...this.state.tags, this.state.keyValue.trim()], keyValue: '' })
         } else {
             toast((t) => (
                 <span><FcInfo />&nbsp;tag already added</span>
@@ -107,14 +107,18 @@ class AskQuestion extends Component {
 
         if (!loginService.isUserLogin()) {
             toast((t) => (
-                <span><FiInfo />&nbsp;Please login</span>
+                <span><FcInfo />&nbsp;Please login</span>
             ))
             return;
         }
 
-        if (this.state.title.trim() === ' ' || this.state.body.toString('html').trim() === '<p><br></p>') {
+        if (this.state.title.trim() === '' || this.state.body.toString('html').trim() === '<p><br></p>') {
             toast((t) => (
                 <span><FcInfo />&nbsp;&nbsp;Please enter question details</span>
+            ))
+        } else if (this.state.title.trim().length >= 255) {
+            toast((t) => (
+                <span><FcInfo />&nbsp;&nbsp;Concise your title to less than 255 characters.</span>
             ))
         } else {
             this.questionDTO.title = this.state.title;
@@ -162,20 +166,6 @@ class AskQuestion extends Component {
                 })
                 )();
 
-
-                //adding new tag to db
-                // const tagsToBeAdded = []
-                // this.questionDTO.tags.split(' ').forEach((tag)=>{
-                //     if(this.state.allTags.find(f => f===tag) === undefined){
-                //         tagsToBeAdded.push(tag)
-                //     }
-                // })
-                // post tags to db
-                // (async()=>{
-                //      await questionService.
-                // })();
-
-
             } catch (e) {
                 this.setState({ isLoading: false })
             }
@@ -197,12 +187,12 @@ class AskQuestion extends Component {
                 <div className='askQuestionTitle_div'>
                     <br />
                     <h3 style={{ color: 'var(--blue-minded)' }}><b>Question title:*</b></h3>
-                    <input type="text" value={this.state.title} name='title' onChange={(evt) => this.handleTitle(evt)} placeholder='title here' />
+                    <input type="text" value={this.state.title} name='title' onChange={(evt) => this.handleTitle(evt)} placeholder='title here' required />
                     <br />
                     <h3 style={{ color: 'var(--blue-minded)' }}><b>Question body:*</b></h3>
                 </div>
 
-                <RichTextEditor style={{ innerHeight: 500 }} value={this.state.body} onChange={this.onChange} />
+                <RichTextEditor style={{ innerHeight: '500px' }} value={this.state.body} onChange={this.onChange} />
 
                 <div className='askQuestionTags_div'>
                     <span style={{ color: 'var(--blue-minded)', fontSize: '1rem' }}><b>Add tags to your question: <span style={{ fontSize: '.75rem' }}>(click on tag to remove)</span></b></span>

@@ -20,7 +20,9 @@ const instance = axios.create(defaultOptions);
 
 instance.interceptors.request.use(
     async (request) => {
-        if (request.url.toString().includes('/api/v1')) { return request; }
+        if (request.url.includes('api/v1')) {
+            return request;
+        }
         else {
             if (!(request.headers.Authorization && request.headers.ReAuthorization)) {
                 if (localStorage.getItem("JWT")) {
@@ -35,8 +37,7 @@ instance.interceptors.request.use(
                                     jwt.access_token = new_token;
                                     localStorage.setItem("JWT", JSON.stringify(jwt));
                                 }, (err) => {
-                                    console.log(err.response.message);
-                                    if (request.url.toString().includes('refresh-token')) {
+                                    if (request.url.includes('refresh-token')) {
                                         toast((t) => (
                                             <span style={{ fontSize: '1rem' }}><FcInfo />&nbsp;&nbsp;Your session is expired</span>
                                         ));

@@ -3,7 +3,8 @@
     color: var(--light-blue);
     border: 1px solid var(--light-grey);
     border-radius: var(--radius);
-    margin: 0px 3px;
+    margin: 1px 2px;
+    font-size: .75rem;
 }
 
 .tag:hover {
