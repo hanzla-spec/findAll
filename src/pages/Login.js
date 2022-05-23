@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Button from '../components/Button'
 import './Login.css'
 import { Link, useNavigate } from 'react-router-dom'
@@ -13,6 +13,7 @@ function Login() {
 
     const navigate = useNavigate();
     const [loginDetails, setLoginDetails] = useState(DTOs.loginDetails);
+    const [isShowVerifyEmail, setShowIsVerifyEmail] = useState(false);
     const userDetails = DTOs.userDetails;
     const usernameRef = useRef(null);
     const passwordRef = useRef(null);
@@ -43,11 +44,16 @@ function Login() {
                 localStorage.removeItem("JWT");
                 JWT = res.data;
                 userDetails.userId = res.data.userId;
+                userDetails.is_verified = res.data.isVerified;
                 JWT.userId = null;
                 localStorage.setItem("JWT", JSON.stringify(JWT));
                 userDetails.username = loginDetails.username;
                 localStorage.setItem("USER", JSON.stringify(userDetails));
-                navigate('/');
+                if (res.data.isVerified === 'false') {
+                    setShowIsVerifyEmail(true);
+                } else {
+                    navigate('/');
+                }
             }, (error) => {
                 if (error.response.status === 500) {
                     toast((t) => (
@@ -73,6 +79,11 @@ function Login() {
         );
     }
 
+    useEffect(() => {
+        console.log('register-effect');
+
+    }, [isShowVerifyEmail])
+
     return (
         <>
             {
@@ -84,6 +95,10 @@ function Login() {
             }
             <div className='login_container'>
                 <div className='login_color_bar'></div>
+                {
+                    isShowVerifyEmail &&
+                    <div style={{ margin: '5px auto', color: 'red' }}>Your Email is not verified.<Link style={{ color: 'blue !important' }} to='/verify-email'>&nbsp;Click to verify</Link></div>
+                }
                 <div className='login_content'>
                     <div className='login_heading'>
                         <span>LOGIN</span>
@@ -101,7 +116,6 @@ function Login() {
                             </div>
                         </div>
                     </form>
-
                 </div>
             </div>
         </>

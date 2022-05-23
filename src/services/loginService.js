@@ -8,11 +8,12 @@ const loginService = {
     },
 
     isUserLogin: () => {
-        if (localStorage.getItem("JWT")) {
+        if (localStorage.getItem("JWT") && localStorage.getItem("USER")) {
             try {
                 const token = JSON.parse(localStorage.getItem("JWT")).access_token;
                 const refresh_token = JSON.parse(localStorage.getItem("JWT")).refresh_token;
-                if (token) {
+                const is_verified = JSON.parse(localStorage.getItem("USER")).is_verified;
+                if (token && (is_verified === 'true')) {
                     const jwtDecoded = jwtDecode(refresh_token);
                     if (Date.now() > jwtDecoded.exp * 1000) {
                         return false;

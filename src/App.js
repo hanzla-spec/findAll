@@ -9,6 +9,7 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import Question from './pages/Question'
 import About from './pages/About'
 import Blog from './pages/Blog'
+import VerifyEmail from './pages/VerifyEmail';
 
 function App() {
     return (
@@ -22,6 +23,7 @@ function App() {
                     <Route exact path='/login' element={<Login />} />
                     <Route exact path='/register' element={<Register />} />
                     <Route exact path='/needhelp' element={<Needhelp />} />
+                    <Route exact path='/verify-email' element={<VerifyEmail />} />
                     <Route exact path='/privacy-policy' element={<PrivacyPolicy />} />
                     <Route path="/*" element={<Main />} />
                     <Route path="/questions/*" element={<Question />} />

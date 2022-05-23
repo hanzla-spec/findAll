@@ -45,6 +45,7 @@ function Register() {
         } else {
             setLoading(true);
             let JWT = DTOs.JWTs;
+            let userDetails = DTOs.userDetails;
             await loginService.registerUser(loginDetails).then(
                 (res) => {
                     toast.success("Registration successful");
@@ -52,9 +53,13 @@ function Register() {
                         (res) => {
                             localStorage.removeItem("JWT");
                             JWT = res.data;
+                            userDetails.userId = res.data.userId;
+                            userDetails.is_verified = res.data.isVerified;
                             JWT.userId = null;
                             localStorage.setItem("JWT", JSON.stringify(JWT));
-                            navigate('/');
+                            userDetails.username = loginDetails.username;
+                            localStorage.setItem("USER", JSON.stringify(userDetails))
+                            navigate('/verify-email');
                         }, (error) => {
                             if (error.response.status === 500) {
                                 toast((t) => (

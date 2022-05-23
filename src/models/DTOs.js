@@ -5,7 +5,8 @@ const DTOs = {
     },
     userDetails: {
         username: '',
-        userId: ''
+        userId: '',
+        is_verified: ''
     },
     JWTs: {
         type: '',
