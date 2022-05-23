@@ -32,11 +32,10 @@
     padding: 0px;
     background-color: var(--clr-grey-7);
     position: absolute;
-    width: 97%;
+    width: 97% !important;
     max-height: 25vh;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
-
 
 .eachFilteredTag {
     width: 100%;

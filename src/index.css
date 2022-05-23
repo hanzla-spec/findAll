@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&family=Roboto+Slab:wght@300&family=Roboto:wght@100&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
 
 :root {
 
@@ -45,10 +46,13 @@
     --grey: #5C5F58;
     --light-grey: #f3f3f3;
     --light-grey-2: #e3e2e2;
-    --open-sans: 'Open Sans', sans-serif;
-    --roboto: 'Roboto', sans-serif;
-    --roboto-slab: 'Roboto Slab', serif;
-    --montserrat: 'Montserrat', sans-serif;
+    --light-grey-3: rgb(184, 180, 180);
+    --open-sans: sans-serif;
+    --roboto: sans-serif;
+    --roboto-slab: serif;
+    --montserrat: sans-serif;
+    --ubuntu: 'Ubuntu', sans-serif;
+    ;
     --light-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     --dark-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
     --transition: all 0.3s linear;

@@ -14,7 +14,7 @@ function Pagination({ questionsPerPage, totalQuestions, paginate, currentPage })
             return;
         } else {
             const newStartPage = (startPageNum - 1) >= 0 ? (startPageNum - 1) : 0;
-            const newLastPage = (startPageNum + 10) > Math.ceil(totalQuestions / questionsPerPage) ? Math.ceil(totalQuestions / questionsPerPage) : (startPageNum + 10)
+            const newLastPage = (startPageNum + 5) > Math.ceil(totalQuestions / questionsPerPage) ? Math.ceil(totalQuestions / questionsPerPage) : (startPageNum + 5 - 1)
             setStartPageNum(newStartPage);
             setShowedPageNumbers(pageNumbers.slice(newStartPage, newLastPage))
         }
@@ -22,11 +22,11 @@ function Pagination({ questionsPerPage, totalQuestions, paginate, currentPage })
 
 
     const handlePageArrowRight = () => {
-        if ((startPageNum + 11) > Math.ceil(totalQuestions / questionsPerPage)) {
+        if ((startPageNum + 5 + 1) > Math.ceil(totalQuestions / questionsPerPage)) {
             return;
         } else {
-            const newLastPage = (startPageNum + 11);
-            const newStartPage = (newLastPage - 10);
+            const newLastPage = (startPageNum + 5 + 1);
+            const newStartPage = (newLastPage - 5);
             setStartPageNum(newStartPage);
             setShowedPageNumbers(pageNumbers.slice(newStartPage, newLastPage))
         }
@@ -38,9 +38,8 @@ function Pagination({ questionsPerPage, totalQuestions, paginate, currentPage })
             for (let i = 1; i <= Math.ceil(totalQuestions / questionsPerPage); i++) {
                 pageNumbers.push(i);
             }
-            setShowedPageNumbers(pageNumbers.slice(0, 10));
+            setShowedPageNumbers(pageNumbers.slice(0, 5));
         }
-
     }, [showedPageNumbers, totalQuestions, questionsPerPage, pageNumbers])
 
     return (
@@ -52,7 +51,6 @@ function Pagination({ questionsPerPage, totalQuestions, paginate, currentPage })
                         <li onClick={() => paginate(num)} className='eachPageNumber' id={(currentPage === num) ? 'activePage' : 'inactivePage'} key={num}>{num}</li>
                     )
                 })}
-
                 <li onClick={() => handlePageArrowRight()} className='eachPageNumber' style={{ marginLeft: '8px' }}><BsChevronRight /></li>
             </ul>
         </div>

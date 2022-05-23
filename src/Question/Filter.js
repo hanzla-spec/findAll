@@ -4,7 +4,7 @@ import { FcInfo } from 'react-icons/fc'
 import Button from '../components/Button'
 import toast from 'react-hot-toast';
 
-function Filter({ tags, filterKeys, setFilterKeys, setIsFilterShow, filterQuestionsByTags
+function Filter({ tags, filterKeys, setFilterKeys, filterQuestionsByTags
     , filterQuestionsByNewest, filterQuestionsByTopVoted, filterQuestionsByAnswered, filterQuestionByUnanswered
     , filterQuestionsByTopViewed }) {
 
@@ -29,14 +29,13 @@ function Filter({ tags, filterKeys, setFilterKeys, setIsFilterShow, filterQuesti
 
     const addToFilteredList = (tag) => {
         if (!filterKeys.find(t => t === tag)) {
-            filterKeys.push(tag)
-            setFilterKeys(filterKeys);
-            setShowSearchedTags(false);
+            setFilterKeys([...filterKeys, tag]);
         } else {
             toast((t) => (
                 <span><FcInfo />&nbsp;&nbsp;tag already added</span>
             ))
         }
+        setShowSearchedTags(false);
         console.log(filterKeys);
     }
 
@@ -60,9 +59,9 @@ function Filter({ tags, filterKeys, setFilterKeys, setIsFilterShow, filterQuesti
 
                 <span><b>search tags:</b>&nbsp;&nbsp;</span><span style={{ fontSize: '.75rem' }}>(click on tag to remove)</span>
                 <div className='filterKeysShow_div'>
-                    {filterKeys.map((key) => {
+                    {filterKeys.map((key, index) => {
                         return (
-                            <span onClick={() => removeFilter(key)} key={key}>
+                            <span onClick={() => removeFilter(key)} key={index}>
                                 <Button text={key} size="extra_small" type="light" />
                             </span>
                         )
@@ -78,9 +77,9 @@ function Filter({ tags, filterKeys, setFilterKeys, setIsFilterShow, filterQuesti
                     isShowSearchedTags &&
                     <ul className='filteredTagsList_div'>
                         {
-                            filteredTags.map((tag) => {
+                            filteredTags.map((tag, index) => {
                                 return (
-                                    <li onClick={() => addToFilteredList(tag)} className='eachFilteredTag' key={tag}>{tag}</li>
+                                    <li onClick={() => addToFilteredList(tag)} className='eachFilteredTag' key={index}>{tag}</li>
                                 )
                             })
                         }
@@ -89,10 +88,8 @@ function Filter({ tags, filterKeys, setFilterKeys, setIsFilterShow, filterQuesti
                 }
 
                 <div className='applyFilterBtn_div'>
-                    <span onClick={() => {
-                        setIsFilterShow(false)
-                        filterQuestionsByTags()
-                    }}><Button text="Apply Filter" type="dark" size="medium" /></span>
+                    <span onClick={filterQuestionsByTags}>
+                        <Button text="Apply Filter" type="dark" size="medium" /></span>
                 </div>
 
 

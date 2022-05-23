@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react'
 import Button from '../components/Button'
 import './Login.css'
 import { Link, useNavigate } from 'react-router-dom'
-import { FiInfo } from 'react-icons/fi'
+import { FcInfo } from 'react-icons/fc'
 import DTOs from '../models/DTOs'
 import toast from 'react-hot-toast'
 import loginService from '../services/loginService'
@@ -30,7 +30,7 @@ function Login() {
 
         if (loginDetails.username.trim() === '' || loginDetails.password.trim() === '') {
             toast((t) => (
-                <span style={{ fontSize: '1rem' }}><FiInfo />&nbsp;&nbsp;Please enter details
+                <span style={{ fontSize: '1rem' }}><FcInfo />&nbsp;&nbsp;Please enter details
                 </span>
             ))
             return;
@@ -51,12 +51,12 @@ function Login() {
             }, (error) => {
                 if (error.response.status === 500) {
                     toast((t) => (
-                        <span style={{ fontSize: '1rem' }}><FiInfo />&nbsp;&nbsp;There is some issue from our server.please try after some time
+                        <span style={{ fontSize: '1rem' }}><FcInfo />&nbsp;&nbsp;There is some issue from our server.please try after some time
                         </span>
                     ))
                 } else {
                     toast((t) => (
-                        <span style={{ fontSize: '1rem' }}><FiInfo />&nbsp;&nbsp;{error.response.data.message}
+                        <span style={{ fontSize: '1rem' }}><FcInfo />&nbsp;&nbsp;{error.response.data.message}
                         </span>
                     ))
                 }
@@ -64,7 +64,7 @@ function Login() {
             }
         ).catch((ex) => {
             toast((t) => (
-                <span style={{ fontSize: '1rem' }}><FiInfo />&nbsp;&nbsp;There is some issue from our server.please try after some time
+                <span style={{ fontSize: '1rem' }}><FcInfo />&nbsp;&nbsp;There is some issue from our server.please try after some time
                 </span>
             ))
         }).finally(() => {
